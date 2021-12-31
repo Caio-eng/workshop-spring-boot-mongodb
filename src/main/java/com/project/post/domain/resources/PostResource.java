@@ -45,6 +45,7 @@ public class PostResource {
 	public ResponseEntity<Void> insert(@RequestBody PostDTO objDto) {
 		Post obj = service.fromDTO(objDto);
 		obj = service.insert(obj);
+		objDto.getAuthor().getId();
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
