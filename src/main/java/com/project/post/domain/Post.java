@@ -1,12 +1,15 @@
 package com.project.post.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.project.post.dto.AuthorDTO;
+import com.project.post.dto.ComentDTO;
 
 @Document(collection = "post")
 public class Post implements Serializable {
@@ -20,6 +23,8 @@ public class Post implements Serializable {
 	//pega tudo que tem em usuário
 	//private User author;
 	private AuthorDTO author;
+	
+	private List<ComentDTO> coments = new ArrayList<>();
 	
 	public Post() {
 	}
@@ -71,6 +76,14 @@ public class Post implements Serializable {
 
 	public void setAuthor(AuthorDTO author) {
 		this.author = author;
+	}
+	
+	public List<ComentDTO> getComents() {
+		return coments;
+	}
+
+	public void setComents(List<ComentDTO> coments) {
+		this.coments = coments;
 	}
 
 	@Override
