@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.project.post.domain.Post;
+import com.project.post.domain.resources.util.URL;
 import com.project.post.dto.AuthorDTO;
 import com.project.post.dto.PostDTO;
 import com.project.post.services.PostService;
@@ -32,13 +34,19 @@ public class PostResource {
 		return ResponseEntity.ok().body(listDto);
 	}
 	
-	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<PostDTO> findById(@PathVariable String id) {
 		Post obj = service.findById(id);
 		return ResponseEntity.ok().body(new PostDTO(obj));
 		//Sem DTO seroa
 		//return ResponseEntity.ok().body(obj);
+	}
+	
+	@RequestMapping(value = "/titlesearch", method = RequestMethod.GET)
+	public ResponseEntity<List<Post>> findByText(@RequestParam(value = "text", defaultValue = "") String text) {
+		text = URL.decodeParam(text);
+		List<Post> list = service.findByTitle(text);
+		return ResponseEntity.ok().body(list);
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
